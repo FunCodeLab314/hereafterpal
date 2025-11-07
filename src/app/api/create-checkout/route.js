@@ -1,6 +1,7 @@
 // src/app/api/create-checkout/route.js
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { createRequire } from 'module'
 
 // Create a Supabase client with the SERVICE_ROLE_KEY
 const supabaseAdmin = createClient(
@@ -16,7 +17,8 @@ const prices = {
 
 export async function POST(request) {
   try {
-    // Use require inside function to avoid bundling issues
+    // Use createRequire to properly handle CommonJS module
+    const require = createRequire(import.meta.url)
     const Paymongo = require('paymongo')
     const paymongo = new Paymongo(process.env.PAYMONGO_SECRET_KEY)
 

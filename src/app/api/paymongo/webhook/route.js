@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { headers } from 'next/headers'
+import { createRequire } from 'module'
 
 // Admin client to bypass RLS
 const supabaseAdmin = createClient(
@@ -11,7 +12,8 @@ const supabaseAdmin = createClient(
 
 export async function POST(request) {
   try {
-    // Use require inside function to avoid bundling issues
+    // Use createRequire to properly handle CommonJS module
+    const require = createRequire(import.meta.url)
     const Paymongo = require('paymongo')
     const paymongo = new Paymongo(process.env.PAYMONGO_SECRET_KEY)
 
