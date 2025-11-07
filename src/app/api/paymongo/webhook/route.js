@@ -12,10 +12,10 @@ const supabaseAdmin = createClient(
 
 export async function POST(request) {
   try {
-    // Use createRequire to properly handle CommonJS module
+    // Import the CommonJS wrapper using createRequire
     const require = createRequire(import.meta.url)
-    const Paymongo = require('paymongo')
-    const paymongo = new Paymongo(process.env.PAYMONGO_SECRET_KEY)
+    const { createPaymongoClient } = require('../../lib/paymongo.cjs')
+    const paymongo = createPaymongoClient(process.env.PAYMONGO_SECRET_KEY)
 
     const rawBody = await request.text()
     const signature = headers().get('paymongo-signature')

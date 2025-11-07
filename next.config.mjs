@@ -6,7 +6,14 @@ const nextConfig = {
     if (isServer) {
       // Externalize paymongo for server-side to avoid bundling issues
       config.externals = config.externals || []
-      config.externals.push('paymongo')
+      
+      // More aggressive externalization - treat as external function
+      config.externals.push(({ request }, callback) => {
+        if (request === 'paymongo') {
+          return callback(null, 'commonjs ' + request)
+        }
+        callback()
+      })
     }
     return config
   },
