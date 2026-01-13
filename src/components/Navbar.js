@@ -13,10 +13,17 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
   const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     const getSession = async () => {
       const {
         data: { session },
@@ -35,7 +42,7 @@ export function Navbar() {
     return () => {
       authListener.subscription.unsubscribe()
     }
-  }, [supabase])
+  }, [mounted, supabase])
 
   const closeMenu = () => setIsOpen(false)
 
@@ -77,7 +84,7 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          {!loading && (
+          {mounted && !loading && (
             user ? (
               <>
                 {userLinks.map((link) => (
@@ -138,7 +145,7 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="border-t border-light-border dark:border-dark-border my-2"></div>
-              {!loading && (
+              {mounted && !loading && (
                 user ? (
                   <>
                     {userLinks.map((link) => (

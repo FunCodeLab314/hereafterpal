@@ -1,11 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
-    @apply bg-light-background text-light-textPrimary;
-    @apply dark:bg-dark-background dark:text-dark-textPrimary;
+    @apply bg-memorial-bg text-memorial-text;
+    @apply dark:bg-memorialDark-bg dark:text-memorialDark-text;
     @apply transition-colors duration-300;
+    font-family: 'Inter', 'Source Sans Pro', system-ui, sans-serif;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'Crimson Text', 'Lora', serif;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+
+  *:focus-visible {
+    @apply outline-memorial-gold outline-offset-2;
+    outline-width: 3px;
+  }
+
+  .dark *:focus-visible {
+    @apply outline-memorialDark-gold;
+  }
+}
+
+@layer utilities {
+  /* Loading animation */
+  @keyframes blur-up {
+    from {
+      filter: blur(10px);
+      opacity: 0;
+    }
+    to {
+      filter: blur(0);
+      opacity: 1;
+    }
+  }
+
+  .blur-up {
+    animation: blur-up 0.5s ease-out;
+  }
+
+  /* Gentle fade transition */
+  .fade-in {
+    animation: fadeIn 300ms ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Memorial card */
+  .memorial-card {
+    @apply bg-memorial-surface dark:bg-memorialDark-surface;
+    @apply rounded-memorial shadow-memorial;
+    @apply transition-shadow duration-300;
+  }
+
+  .memorial-card:hover {
+    @apply shadow-memorial-lg;
+  }
+
+  /* Print styles */
+  @media print {
+    body {
+      @apply bg-white text-black;
+    }
+    
+    .no-print {
+      display: none !important;
+    }
   }
 }

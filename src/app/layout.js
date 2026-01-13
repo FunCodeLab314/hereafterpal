@@ -4,6 +4,7 @@ import { ThemeProvider } from './theme-provider'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { ToastProvider } from '@/components/ToastProvider'
+import { AuthProvider } from '@/context/AuthContext'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -21,12 +22,14 @@ export default function RootLayout({ children }) {
     <html lang="en" className={poppins.variable} suppressHydrationWarning>
       <body className="font-poppins">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ToastProvider />
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
+          <AuthProvider>
+            <ToastProvider />
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

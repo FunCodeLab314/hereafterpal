@@ -1,219 +1,265 @@
-'use client'
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabaseClient'
-import { useParams } from 'next/navigation'
-import { CldImage } from 'next-cloudinary'
-import toast from 'react-hot-toast'
-import { Send } from 'lucide-react'
-import Link from 'next/link'
+'use client';
 
-// Guestbook Entry Component
-function Letter({ letter }) {
-  return (
-    <div className="bg-light-surface dark:bg-dark-surface p-4 rounded-lg border border-light-border dark:border-dark-border">
-      <p className="text-light-textSecondary dark:text-dark-textSecondary mb-2">
-        {letter.message}
-      </p>
-      <span className="text-sm font-medium text-light-accent dark:text-dark-accent">
-        - {letter.author_name || 'A Friend'}
-      </span>
-    </div>
-  )
-}
+import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import MemorialNav from '@/components/memorial/MemorialNav';
+import MemorialHero from '@/components/memorial/MemorialHero';
+import Timeline from '@/components/memorial/Timeline';
+import PhotoGallery from '@/components/memorial/PhotoGallery';
+import Guestbook from '@/components/memorial/Guestbook';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import toast from 'react-hot-toast';
 
-export default function MemorialPage() {
-  const [memorial, setMemorial] = useState(null)
-  const [photos, setPhotos] = useState([])
-  const [letters, setLetters] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [newMessage, setNewMessage] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [posting, setPosting] = useState(false)
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
+export default function MemorialProfilePage() {
+  const params = useParams();
+  const memorialId = params?.id;
+  const supabase = createClientComponentClient();
 
-  const supabase = createClient()
-  const params = useParams()
-  const { id: memorialId } = params
+  const [memorial, setMemorial] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState('home');
 
-  // Fetch all data for the memorial
+  // Fetch memorial data
   useEffect(() => {
-    if (!memorialId) return
+    if (!memorialId) return;
 
-    const fetchMemorialData = async () => {
-      setLoading(true)
+    const fetchMemorial = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('memorials')
+          .select('*')
+          .eq('id', memorialId)
+          .single();
 
-      // 1. Get current logged-in user (if any)
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      if (user) {
-        const { data: profileData } = await supabase.from('profiles').select('full_name').eq('id', user.id).single()
-        setProfile(profileData)
-        if (profileData) setNewAuthor(profileData.full_name)
+        if (error) throw error;
+        setMemorial(data);
+      } catch (error) {
+        console.error('Error fetching memorial:', error);
+        toast.error('Failed to load memorial');
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      // 2. Fetch the memorial details
-      const { data: memorialData, error: memorialError } = await supabase
-        .from('memorials')
-        .select('*')
-        .eq('id', memorialId)
-        .single()
+    fetchMemorial();
+  }, [memorialId, supabase]);
 
-      if (memorialError || !memorialData) {
-        toast.error('Memorial not found or you do not have access.')
-        setLoading(false)
-        return
+  // Fetch guestbook messages
+  useEffect(() => {
+    if (!memorialId) return;
+
+    const fetchMessages = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('guestbook_messages')
+          .select('*')
+          .eq('memorial_id', memorialId)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setMessages(data || []);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
       }
-      setMemorial(memorialData)
+    };
 
-      // 3. Fetch gallery photos
-      const { data: photosData } = await supabase
-        .from('gallery_photos')
+    fetchMessages();
+  }, [memorialId, supabase]);
+
+  // Handle guestbook submission
+  const handleGuestbookSubmit = async (formData) => {
+    try {
+      const { error } = await supabase
+        .from('guestbook_messages')
+        .insert([
+          {
+            memorial_id: memorialId,
+            name: formData.name,
+            email: formData.email || null,
+            message: formData.message,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+
+      if (error) throw error;
+
+      // Refresh messages
+      const { data: newMessages } = await supabase
+        .from('guestbook_messages')
         .select('*')
         .eq('memorial_id', memorialId)
-        .order('created_at', { ascending: false })
-      setPhotos(photosData || [])
+        .order('created_at', { ascending: false });
 
-      // 4. Fetch guestbook letters
-      const { data: lettersData } = await supabase
-        .from('guestbook_entries')
-        .select('*')
-        .eq('memorial_id', memorialId)
-        .order('created_at', { ascending: false })
-      setLetters(lettersData || [])
-
-      setLoading(false)
+      setMessages(newMessages || []);
+      toast.success('Thank you for sharing your memory', {
+        icon: '💙',
+        style: {
+          background: '#FAF9F7',
+          color: '#2C2C2C',
+          padding: '16px',
+          borderRadius: '8px',
+        },
+      });
+    } catch (error) {
+      console.error('Error submitting message:', error);
+      toast.error('Failed to submit message. Please try again.');
+      throw error;
     }
+  };
 
-    fetchMemorialData()
-  }, [memorialId, supabase])
+  // Track active section on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'life-story', 'photos', 'guestbook'];
+      const scrollPosition = window.scrollY + 100;
 
-  // --- Handle Guestbook (Letters of Love) Post ---
-  const handlePostLetter = async (e) => {
-    e.preventDefault()
-    if (!newMessage.trim() || !newAuthor.trim()) {
-      return toast.error('Please fill in your name and a message.')
-    }
-    if (!user) {
-      return toast.error('You must be logged in to leave a message.')
-    }
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
 
-    setPosting(true)
-    const toastId = toast.loading('Posting message...')
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    const { data: newEntry, error } = await supabase
-      .from('guestbook_entries')
-      .insert({
-        memorial_id: memorialId,
-        author_id: user.id,
-        author_name: newAuthor,
-        message: newMessage,
-      })
-      .select()
-      .single()
-
-    if (error) {
-      toast.dismiss(toastId)
-      toast.error(`Error: ${error.message}`)
-    } else {
-      toast.dismiss(toastId)
-      toast.success('Your letter has been posted.')
-      setLetters([newEntry, ...letters]) // Add to UI instantly
-      setNewMessage('')
-    }
-    setPosting(false)
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-memorial-bg dark:bg-memorialDark-bg">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-memorial-gold/30 border-t-memorial-gold dark:border-memorialDark-gold/30 dark:border-t-memorialDark-gold rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-memorial-textSecondary dark:text-memorialDark-textSecondary">
+            Loading memorial...
+          </p>
+        </div>
+      </div>
+    );
   }
 
-  if (loading) {
-    return <div className="text-center py-16">Loading Memorial...</div>
-  }
   if (!memorial) {
-    return <div className="text-center py-16">Memorial not found.</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-memorial-bg dark:bg-memorialDark-bg px-4">
+        <div className="text-center max-w-md">
+          <h1 className="text-2xl md:text-3xl font-serif text-memorial-text dark:text-memorialDark-text mb-4">
+            Memorial Not Found
+          </h1>
+          <p className="text-memorial-textSecondary dark:text-memorialDark-textSecondary mb-8">
+            We couldn't find the memorial you're looking for. It may have been removed or the link may be incorrect.
+          </p>
+          <a
+            href="/"
+            className="inline-block px-6 py-3 bg-memorial-gold dark:bg-memorialDark-gold text-white rounded-memorial hover:opacity-90 transition-opacity duration-200"
+          >
+            Return Home
+          </a>
+        </div>
+      </div>
+    );
   }
+
+  // Sample data structure (replace with actual memorial data)
+  const sampleData = {
+    name: memorial.name || 'Beloved Name',
+    dateOfBirth: memorial.date_of_birth || '1950-01-01',
+    dateOfPassing: memorial.date_of_passing || '2024-01-01',
+    mainPhoto: memorial.main_photo_url || '/images/memorial-placeholder.jpg',
+    quote: memorial.quote || 'Forever in our hearts',
+    biography: memorial.biography || 'A life well lived, a legacy of love.',
+
+    milestones: memorial.milestones || [
+      {
+        id: 1,
+        date: '1950-01-01',
+        title: 'Born',
+        description: 'Born in a small town...',
+      },
+      {
+        id: 2,
+        date: '1972-06-15',
+        title: 'Married',
+        description: 'Married the love of their life...',
+      },
+    ],
+
+    photos: memorial.photos || [
+      {
+        id: 1,
+        url: '/images/photo1.jpg',
+        caption: 'A cherished moment',
+      },
+    ],
+  };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-16 space-y-16">
-      {/* --- 1. Biography Section --- */}
-      <section className="text-center">
-        <h1 className="text-4xl font-semibold mb-4">{memorial.name}</h1>
-        <p className="text-lg text-light-textSecondary dark:text-dark-textSecondary whitespace-pre-line max-w-3xl mx-auto">
-          {memorial.bio || 'No biography written yet.'}
-        </p>
+    <div className="min-h-screen bg-memorial-bg dark:bg-memorialDark-bg pb-20 md:pb-8">
+      {/* Navigation */}
+      <MemorialNav memorialId={memorialId} activeSection={activeSection} />
+
+      {/* Hero Section */}
+      <section id="home" className="scroll-mt-20">
+        <MemorialHero memorial={sampleData} />
       </section>
 
-      {/* --- 2. Memory Lane (Gallery) --- */}
-      <section>
-        <h2 className="text-3xl font-semibold text-center mb-8">Memory Lane</h2>
-        {photos.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {photos.map((photo) => (
-              <div key={photo.id} className="rounded-lg overflow-hidden shadow-lg">
-                <CldImage
-                  width="500"
-                  height="500"
-                  src={photo.image_url} // This is the Cloudinary Public ID
-                  alt={photo.caption || 'Memorial photo'}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+      {/* Main Content Container */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        {/* Life Story / Timeline Section */}
+        {sampleData.milestones && sampleData.milestones.length > 0 && (
+          <section id="life-story" className="py-12 md:py-16 scroll-mt-20">
+            <h2 className="text-3xl md:text-4xl font-serif text-memorial-text dark:text-memorialDark-text mb-8 md:mb-12 text-center">
+              Life Story
+            </h2>
+            <div className="max-w-4xl mx-auto">
+              <Timeline milestones={sampleData.milestones} />
+            </div>
+          </section>
+        )}
+
+        {/* Divider */}
+        <div className="border-t border-memorial-divider dark:border-memorialDark-divider my-12 md:my-16" />
+
+        {/* Photo Gallery Section */}
+        {sampleData.photos && sampleData.photos.length > 0 && (
+          <section id="photos" className="py-12 md:py-16 scroll-mt-20">
+            <h2 className="text-3xl md:text-4xl font-serif text-memorial-text dark:text-memorialDark-text mb-8 md:mb-12 text-center">
+              Treasured Memories
+            </h2>
+            <PhotoGallery photos={sampleData.photos} />
+          </section>
+        )}
+
+        {/* Divider */}
+        <div className="border-t border-memorial-divider dark:border-memorialDark-divider my-12 md:my-16" />
+
+        {/* Guestbook Section */}
+        <section id="guestbook" className="py-12 md:py-16 scroll-mt-20">
+          <h2 className="text-3xl md:text-4xl font-serif text-memorial-text dark:text-memorialDark-text mb-8 md:mb-12 text-center">
+            Book of Memories
+          </h2>
+          <div className="max-w-4xl mx-auto">
+            <Guestbook
+              messages={messages}
+              onSubmit={handleGuestbookSubmit}
+              isLoading={false}
+            />
           </div>
-        ) : (
-          <p className="text-center text-light-textSecondary dark:text-dark-textSecondary">
-            No photos have been added yet.
-          </p>
-        )}
-      </section>
+        </section>
+      </div>
 
-      {/* --- 3. Letters of Love (Guestbook) --- */}
-      <section className="max-w-2xl mx-auto">
-        <h2 className="text-3xl font-semibold text-center mb-8">Letters of Love</h2>
-        
-        {/* Guestbook Form (Only for logged-in users) */}
-        {user ? (
-          <form onSubmit={handlePostLetter} className="mb-8 p-4 bg-light-surface dark:bg-dark-surface rounded-lg border border-light-border dark:border-dark-border">
-            <input
-              type="text"
-              value={newAuthor}
-              onChange={(e) => setNewAuthor(e.target.value)}
-              placeholder="Your Name"
-              className="w-full p-2 mb-2 rounded-lg bg-light-background dark:bg-dark-background border border-light-border dark:border-dark-border"
-              required
-              disabled={!!profile} // Disable if they have a profile name
-            />
-            <textarea
-              rows={3}
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Leave a message or share a memory..."
-              className="w-full p-2 mb-2 rounded-lg bg-light-background dark:bg-dark-background border border-light-border dark:border-dark-border"
-              required
-            />
-            <button
-              type="submit"
-              disabled={posting}
-              className="w-full flex justify-center items-center gap-2 bg-light-primaryButton text-light-buttonText dark:bg-dark-primaryButton dark:text-dark-buttonText font-medium py-2 px-4 rounded-lg disabled:opacity-50"
-            >
-              {posting ? 'Posting...' : <><Send size={16} /> Post Letter</>}
-            </button>
-          </form>
-        ) : (
-          <p className="text-center text-light-textSecondary dark:text-dark-textSecondary mb-8">
-            Please <Link href="/login" className="underline text-light-accent dark:text-dark-accent">log in</Link> to leave a letter.
-          </p>
-        )}
-
-        {/* Guestbook List */}
-        <div className="space-y-4">
-          {letters.length > 0 ? (
-            letters.map((letter) => <Letter key={letter.id} letter={letter} />)
-          ) : (
-            <p className="text-center text-light-textSecondary dark:text-dark-textSecondary">
-              Be the first to leave a letter.
-            </p>
-          )}
-        </div>
-      </section>
+      {/* Footer Note */}
+      <footer className="mt-16 py-8 text-center text-sm text-memorial-textSecondary dark:text-memorialDark-textSecondary border-t border-memorial-divider dark:border-memorialDark-divider no-print">
+        <p className="max-w-2xl mx-auto px-4">
+          This memorial page is a place to celebrate, remember, and honor a life well lived.
+          <br />
+          Created with love by HereAfter, Pal
+        </p>
+      </footer>
     </div>
-  )
+  );
 }
