@@ -1,12 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 export default function MemorialHero({ memorial }) {
     if (!memorial) return null;
 
-    const { name, dateOfBirth, dateOfPassing, mainPhoto, quote, biography } = memorial;
+    const { name, date_of_birth, date_of_passing, image_url, quote, bio } = memorial;
 
     // Format dates elegantly
     const formatDate = (date) => {
@@ -18,28 +18,50 @@ export default function MemorialHero({ memorial }) {
         });
     };
 
-    const birthYear = dateOfBirth ? new Date(dateOfBirth).getFullYear() : '';
-    const passingYear = dateOfPassing ? new Date(dateOfPassing).getFullYear() : '';
+    const birthYear = date_of_birth ? new Date(date_of_birth).getFullYear() : '';
+    const passingYear = date_of_passing ? new Date(date_of_passing).getFullYear() : '';
+
+    // Check if image_url is a Cloudinary public_id (doesn't start with http)
+    const isCloudinaryImage = image_url && !image_url.startsWith('http');
 
     return (
         <section className="relative w-full">
-            {/* Hero Image with Gradient Overlay */}
+            {/* Hero with Background Image */}
             <div className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
-                {mainPhoto && (
-                    <Image
-                        src={mainPhoto}
-                        alt={name || 'Memorial photo'}
-                        fill
-                        priority
-                        className="object-cover blur-up"
-                        style={{
-                            filter: 'brightness(0.85) saturate(0.9)',
-                        }}
-                    />
+                {/* Background Image - Cloudinary or regular image */}
+                {image_url && (
+                    isCloudinaryImage ? (
+                        <CldImage
+                            src={image_url}
+                            alt={name || 'Memorial photo'}
+                            fill
+                            priority
+                            crop="fill"
+                            gravity="face"
+                            className="object-cover"
+                            style={{
+                                filter: 'brightness(0.7) saturate(0.85)',
+                            }}
+                        />
+                    ) : (
+                        <img
+                            src={image_url}
+                            alt={name || 'Memorial photo'}
+                            className="w-full h-full object-cover"
+                            style={{
+                                filter: 'brightness(0.7) saturate(0.85)',
+                            }}
+                        />
+                    )
+                )}
+
+                {/* Fallback background if no image */}
+                {!image_url && (
+                    <div className="absolute inset-0 bg-gradient-to-b from-memorial-textSecondary/30 to-memorialDark-bg" />
                 )}
 
                 {/* Gradient Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
 
                 {/* Hero Content - Centered */}
                 <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 md:pb-16 lg:pb-20 px-4">
@@ -55,39 +77,39 @@ export default function MemorialHero({ memorial }) {
                         </h1>
 
                         {/* Life Dates */}
-                        <div className="flex items-center justify-center gap-3 mb-6 md:mb-8">
-                            <time
-                                dateTime={dateOfBirth}
-                                className="text-lg md:text-xl text-white/90 drop-shadow-md"
-                            >
-                                {birthYear}
-                            </time>
-                            <span className="text-white/70 text-2xl">—</span>
-                            <time
-                                dateTime={dateOfPassing}
-                                className="text-lg md:text-xl text-white/90 drop-shadow-md"
-                            >
-                                {passingYear}
-                            </time>
-                        </div>
+                        {(birthYear || passingYear) && (
+                            <div className="flex items-center justify-center gap-3 mb-6 md:mb-8">
+                                <time
+                                    dateTime={date_of_birth}
+                                    className="text-lg md:text-xl text-white/90 drop-shadow-md"
+                                >
+                                    {birthYear}
+                                </time>
+                                <span className="text-white/70 text-2xl">—</span>
+                                <time
+                                    dateTime={date_of_passing}
+                                    className="text-lg md:text-xl text-white/90 drop-shadow-md"
+                                >
+                                    {passingYear}
+                                </time>
+                            </div>
+                        )}
 
                         {/* Quote */}
-                        {quote && (
-                            <motion.blockquote
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.6, delay: 0.3 }}
-                                className="text-base md:text-lg lg:text-xl text-white/95 italic font-serif max-w-2xl mx-auto drop-shadow-md"
-                            >
-                                "{quote}"
-                            </motion.blockquote>
-                        )}
+                        <motion.blockquote
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="text-base md:text-lg lg:text-xl text-white/95 italic font-serif max-w-2xl mx-auto drop-shadow-md"
+                        >
+                            "{quote || 'Forever in our hearts'}"
+                        </motion.blockquote>
                     </motion.div>
                 </div>
             </div>
 
             {/* Biography Section - Below Hero */}
-            {biography && (
+            {bio && (
                 <div className="bg-memorial-surface dark:bg-memorialDark-surface">
                     <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
                         <motion.div
@@ -103,7 +125,7 @@ export default function MemorialHero({ memorial }) {
                                 className="text-base md:text-base-desktop leading-relaxed text-memorial-textSecondary dark:text-memorialDark-textSecondary text-center max-w-3xl mx-auto"
                                 style={{ whiteSpace: 'pre-wrap' }}
                             >
-                                {biography}
+                                {bio}
                             </div>
                         </motion.div>
                     </div>

@@ -52,7 +52,7 @@ export default function MemorialProfilePage() {
     const fetchMessages = async () => {
       try {
         const { data, error } = await supabase
-          .from('guestbook_messages')
+          .from('guestbook_entries')
           .select('*')
           .eq('memorial_id', memorialId)
           .order('created_at', { ascending: false });
@@ -71,14 +71,13 @@ export default function MemorialProfilePage() {
   const handleGuestbookSubmit = async (formData) => {
     try {
       const { error } = await supabase
-        .from('guestbook_messages')
+        .from('guestbook_entries')
         .insert([
           {
             memorial_id: memorialId,
-            name: formData.name,
-            email: formData.email || null,
+            author_name: formData.name,
             message: formData.message,
-            created_at: new Date().toISOString(),
+            role: formData.role || 'Stranger',
           },
         ]);
 
@@ -86,7 +85,7 @@ export default function MemorialProfilePage() {
 
       // Refresh messages
       const { data: newMessages } = await supabase
-        .from('guestbook_messages')
+        .from('guestbook_entries')
         .select('*')
         .eq('memorial_id', memorialId)
         .order('created_at', { ascending: false });
@@ -164,59 +163,63 @@ export default function MemorialProfilePage() {
     );
   }
 
-  // Sample data structure (replace with actual memorial data)
-  const sampleData = {
-    name: memorial.name || 'Beloved Name',
-    dateOfBirth: memorial.date_of_birth || '1950-01-01',
-    dateOfPassing: memorial.date_of_passing || '2024-01-01',
-    mainPhoto: memorial.main_photo_url || '/images/memorial-placeholder.jpg',
-    quote: memorial.quote || 'Forever in our hearts',
-    biography: memorial.biography || 'A life well lived, a legacy of love.',
+  // Generate dynamic milestones based on actual memorial dates
+  const generateMilestones = () => {
+    const milestones = [];
 
-    milestones: memorial.milestones || [
-      {
-        id: 1,
-        date: '1950-01-01',
+    // Birth milestone
+    if (memorial.date_of_birth) {
+      const birthDate = new Date(memorial.date_of_birth);
+      milestones.push({
+        id: 'birth',
+        date: memorial.date_of_birth,
         title: 'Born',
-        description: 'Born in a small town...',
-      },
-      {
-        id: 2,
-        date: '1972-06-15',
-        title: 'Married',
-        description: 'Married the love of their life...',
-      },
-    ],
+        description: `${memorial.name} was born on ${birthDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.`,
+      });
+    }
 
-    photos: memorial.photos || [
-      {
-        id: 1,
-        url: '/images/photo1.jpg',
-        caption: 'A cherished moment',
-      },
-    ],
+    // Passing milestone
+    if (memorial.date_of_passing) {
+      const passingDate = new Date(memorial.date_of_passing);
+      const age = memorial.date_of_birth
+        ? Math.floor((passingDate - new Date(memorial.date_of_birth)) / (365.25 * 24 * 60 * 60 * 1000))
+        : null;
+
+      milestones.push({
+        id: 'passing',
+        date: memorial.date_of_passing,
+        title: 'Passed Away',
+        description: age
+          ? `${memorial.name} passed away at the age of ${age}, leaving behind cherished memories.`
+          : `${memorial.name} passed away, leaving behind cherished memories.`,
+      });
+    }
+
+    return milestones;
   };
+
+  const milestones = generateMilestones();
 
   return (
     <div className="min-h-screen bg-memorial-bg dark:bg-memorialDark-bg pb-20 md:pb-8">
       {/* Navigation */}
       <MemorialNav memorialId={memorialId} activeSection={activeSection} />
 
-      {/* Hero Section */}
+      {/* Hero Section - Pass actual memorial data */}
       <section id="home" className="scroll-mt-20">
-        <MemorialHero memorial={sampleData} />
+        <MemorialHero memorial={memorial} />
       </section>
 
       {/* Main Content Container */}
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Life Story / Timeline Section */}
-        {sampleData.milestones && sampleData.milestones.length > 0 && (
+        {milestones && milestones.length > 0 && (
           <section id="life-story" className="py-12 md:py-16 scroll-mt-20">
             <h2 className="text-3xl md:text-4xl font-serif text-memorial-text dark:text-memorialDark-text mb-8 md:mb-12 text-center">
               Life Story
             </h2>
             <div className="max-w-4xl mx-auto">
-              <Timeline milestones={sampleData.milestones} />
+              <Timeline milestones={milestones} />
             </div>
           </section>
         )}
@@ -224,18 +227,8 @@ export default function MemorialProfilePage() {
         {/* Divider */}
         <div className="border-t border-memorial-divider dark:border-memorialDark-divider my-12 md:my-16" />
 
-        {/* Photo Gallery Section */}
-        {sampleData.photos && sampleData.photos.length > 0 && (
-          <section id="photos" className="py-12 md:py-16 scroll-mt-20">
-            <h2 className="text-3xl md:text-4xl font-serif text-memorial-text dark:text-memorialDark-text mb-8 md:mb-12 text-center">
-              Treasured Memories
-            </h2>
-            <PhotoGallery photos={sampleData.photos} />
-          </section>
-        )}
-
-        {/* Divider */}
-        <div className="border-t border-memorial-divider dark:border-memorialDark-divider my-12 md:my-16" />
+        {/* Photo Gallery Section - TODO: Fetch from gallery_photos table */}
+        {/* Photos will be added here when gallery feature is implemented */}
 
         {/* Guestbook Section */}
         <section id="guestbook" className="py-12 md:py-16 scroll-mt-20">

@@ -26,7 +26,12 @@ export default function RootLayout({ children }) {
             <ToastProvider />
             <div className="flex flex-col min-h-screen">
               <Navbar />
-              <main className="flex-grow">{children}</main>
+              {/* Main content with proper padding for fixed navigation */}
+              {/* pt-16 md:pt-[72px] = top padding for fixed navbar */}
+              {/* pb-16 md:pb-0 = bottom padding for mobile bottom nav */}
+              <main className="flex-grow pt-16 md:pt-[72px] pb-16 md:pb-0">
+                {children}
+              </main>
               <Footer />
             </div>
           </AuthProvider>

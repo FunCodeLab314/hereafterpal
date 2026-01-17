@@ -11,14 +11,14 @@ export default function EditMemorialPage() {
   const [memorial, setMemorial] = useState(null)
   const [subscription, setSubscription] = useState(null)
   const [photos, setPhotos] = useState([])
-  
+
   const [bio, setBio] = useState('')
   const [visibility, setVisibility] = useState('private')
-  
+
   const [letters, setLetters] = useState([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState('bio')
-  
+
   const supabase = createClient()
   const params = useParams()
   const router = useRouter()
@@ -44,7 +44,7 @@ export default function EditMemorialPage() {
         .eq('id', memorialId)
         .eq('user_id', user.id) // IMPORTANT: RLS check
         .single()
-      
+
       if (memorialError || !memorialData) {
         toast.error('Memorial not found or you are not the owner.')
         router.push('/dashboard')
@@ -79,7 +79,7 @@ export default function EditMemorialPage() {
   // --- 2. Handle Bio/Visibility Update ---
   const handleUpdateBio = async (e) => {
     e.preventDefault()
-    
+
     // Check for publishing
     if (visibility === 'public' && (!subscription || subscription.plan === 'free')) {
       toast.error('You must have a paid plan to make a memorial public.')
@@ -92,7 +92,7 @@ export default function EditMemorialPage() {
       .from('memorials')
       .update({ bio: bio, visibility: visibility })
       .eq('id', memorialId)
-    
+
     toast.dismiss(toastId)
     if (error) {
       toast.error(error.message)
@@ -116,7 +116,7 @@ export default function EditMemorialPage() {
       })
       .select()
       .single()
-    
+
     if (error) {
       toast.error(error.message)
     } else {
@@ -128,7 +128,7 @@ export default function EditMemorialPage() {
   // --- 4. Handle Photo Deletion ---
   const handleDeletePhoto = async (photoId) => {
     if (!confirm('Are you sure you want to delete this photo?')) return
-    
+
     const { error } = await supabase.from('gallery_photos').delete().eq('id', photoId)
     if (error) {
       toast.error(error.message)
@@ -180,7 +180,7 @@ export default function EditMemorialPage() {
 
       {/* --- Tab Content --- */}
       <div className="bg-light-surface dark:bg-dark-surface p-6 rounded-2xl shadow-lg border border-light-border dark:border-dark-border">
-        
+
         {/* === TAB 1: Bio & Settings === */}
         {tab === 'bio' && (
           <form onSubmit={handleUpdateBio} className="space-y-6">
@@ -226,7 +226,7 @@ export default function EditMemorialPage() {
           <div>
             <CldUploadButton
               cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
-              uploadPreset="YOUR_CLOUDINARY_UNSIGNED_UPLOAD_PRESET_HERE" // ** YOU MUST CREATE THIS IN CLOUDINARY SETTINGS **
+              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
               onSuccess={handleUploadSuccess}
               className="w-full bg-light-primaryButton text-light-buttonText dark:bg-dark-primaryButton dark:text-dark-buttonText font-medium py-2 px-4 rounded-lg mb-6"
             />
@@ -245,7 +245,7 @@ export default function EditMemorialPage() {
             </div>
           </div>
         )}
-        
+
         {/* === TAB 3: Letters of Love === */}
         {tab === 'letters' && (
           <div className="space-y-4">
