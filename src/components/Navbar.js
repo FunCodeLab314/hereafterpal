@@ -80,11 +80,10 @@ export function Navbar() {
     { href: '/account', label: 'Account' },
   ]
 
-  // Mobile bottom navigation items
+  // Mobile bottom navigation items (Create is in hamburger menu)
   const mobileNavItems = [
     { href: '/', label: 'Home', icon: Home },
     { href: '/dashboard', label: 'Memorials', icon: Heart, requiresAuth: true },
-    { href: '/create-memorial', label: 'Create', icon: Plus, requiresAuth: true, isCreate: true },
     { href: '/account', label: 'Profile', icon: User, requiresAuth: true },
   ]
 
@@ -95,8 +94,8 @@ export function Navbar() {
       {/* Desktop & Tablet Navigation - Fixed Top */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-            ? 'bg-memorial-surface/95 dark:bg-memorialDark-surface/95 backdrop-blur-md shadow-memorial'
-            : 'bg-memorial-bg/80 dark:bg-memorialDark-bg/80 backdrop-blur-sm'
+          ? 'bg-memorial-surface/95 dark:bg-memorialDark-surface/95 backdrop-blur-md shadow-memorial'
+          : 'bg-memorial-bg/80 dark:bg-memorialDark-bg/80 backdrop-blur-sm'
           }`}
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6">
@@ -116,8 +115,8 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`text-sm font-medium transition-colors duration-200 ${isActive(link.href)
-                      ? 'text-memorial-gold dark:text-memorialDark-gold'
-                      : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
+                    ? 'text-memorial-gold dark:text-memorialDark-gold'
+                    : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
                     }`}
                 >
                   {link.label}
@@ -136,8 +135,8 @@ export function Navbar() {
                         key={link.href}
                         href={link.href}
                         className={`text-sm font-medium transition-colors duration-200 ${isActive(link.href)
-                            ? 'text-memorial-gold dark:text-memorialDark-gold'
-                            : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
+                          ? 'text-memorial-gold dark:text-memorialDark-gold'
+                          : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
                           }`}
                       >
                         {link.label}
@@ -191,8 +190,8 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={`block px-4 py-3 rounded-memorial text-base font-medium ${isActive(link.href)
-                        ? 'bg-memorial-gold/10 text-memorial-gold dark:text-memorialDark-gold'
-                        : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
+                      ? 'bg-memorial-gold/10 text-memorial-gold dark:text-memorialDark-gold'
+                      : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
                       }`}
                     onClick={closeMenu}
                   >
@@ -208,8 +207,8 @@ export function Navbar() {
                           key={link.href}
                           href={link.href}
                           className={`block px-4 py-3 rounded-memorial text-base font-medium ${isActive(link.href)
-                              ? 'bg-memorial-gold/10 text-memorial-gold dark:text-memorialDark-gold'
-                              : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
+                            ? 'bg-memorial-gold/10 text-memorial-gold dark:text-memorialDark-gold'
+                            : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
                             }`}
                           onClick={closeMenu}
                         >
@@ -241,7 +240,7 @@ export function Navbar() {
 
       {/* Mobile Bottom Tab Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-memorial-surface/95 dark:bg-memorialDark-surface/95 backdrop-blur-md border-t border-memorial-divider dark:border-memorialDark-divider safe-area-bottom">
-        <div className="grid grid-cols-4 h-14">
+        <div className="grid grid-cols-3 h-14">
           {mobileNavItems.map((item) => {
             const Icon = item.icon
             const active = isActive(item.href)
@@ -275,8 +274,8 @@ export function Navbar() {
                   key={item.href}
                   onClick={navigateToCreateMemorial}
                   className={`flex flex-col items-center justify-center gap-0.5 ${active
-                      ? 'text-memorial-gold dark:text-memorialDark-gold'
-                      : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
+                    ? 'text-memorial-gold dark:text-memorialDark-gold'
+                    : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                     }`}
                 >
                   <div className={`p-1.5 rounded-full ${active ? '' : 'bg-memorial-gold dark:bg-memorialDark-gold'}`}>
@@ -292,8 +291,8 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={`flex flex-col items-center justify-center gap-0.5 ${active
-                    ? 'text-memorial-gold dark:text-memorialDark-gold'
-                    : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
+                  ? 'text-memorial-gold dark:text-memorialDark-gold'
+                  : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                   }`}
               >
                 <Icon size={22} />
