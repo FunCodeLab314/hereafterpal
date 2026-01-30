@@ -65,23 +65,23 @@ export default function QuickActions() {
                             <button
                                 onClick={(e) => handleActionClick(e, action)}
                                 className={`block w-full memorial-card p-6 min-h-touch transition-all duration-300 group ${action.primary
-                                    ? 'bg-memorial-gold dark:bg-memorialDark-gold text-white hover:shadow-memorial-lg'
-                                    : 'hover:border-memorial-gold dark:hover:border-memorialDark-gold border border-transparent'
+                                    ? 'bg-memorial-accent dark:bg-memorialDark-accent text-white dark:text-memorialDark-bg hover:shadow-memorial-lg'
+                                    : 'hover:border-memorial-accent dark:hover:border-memorialDark-accent border border-transparent'
                                     }`}
                             >
                                 <div className="flex flex-col items-center text-center gap-3">
                                     <div
                                         className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${action.primary
                                             ? 'bg-white/20'
-                                            : 'bg-memorial-gold/10 dark:bg-memorialDark-gold/10'
+                                            : 'bg-memorial-accent/10 dark:bg-memorialDark-accent/10'
                                             }`}
                                     >
                                         <Icon
                                             size={24}
                                             className={
                                                 action.primary
-                                                    ? 'text-white'
-                                                    : 'text-memorial-gold dark:text-memorialDark-gold'
+                                                    ? 'text-white dark:text-memorialDark-bg'
+                                                    : 'text-memorial-accent dark:text-memorialDark-accent'
                                             }
                                         />
                                     </div>
@@ -89,7 +89,7 @@ export default function QuickActions() {
                                     <div>
                                         <h3
                                             className={`text-lg font-serif mb-1 ${action.primary
-                                                ? 'text-white'
+                                                ? 'text-white dark:text-memorialDark-bg'
                                                 : 'text-memorial-text dark:text-memorialDark-text'
                                                 }`}
                                         >
@@ -97,7 +97,7 @@ export default function QuickActions() {
                                         </h3>
                                         <p
                                             className={`text-sm ${action.primary
-                                                ? 'text-white/80'
+                                                ? 'text-white/80 dark:text-memorialDark-bg/80'
                                                 : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                                                 }`}
                                         >
@@ -110,23 +110,23 @@ export default function QuickActions() {
                             <Link
                                 href={action.href}
                                 className={`block memorial-card p-6 min-h-touch transition-all duration-300 group ${action.primary
-                                    ? 'bg-memorial-gold dark:bg-memorialDark-gold text-white hover:shadow-memorial-lg'
-                                    : 'hover:border-memorial-gold dark:hover:border-memorialDark-gold border border-transparent'
+                                    ? 'bg-memorial-accent dark:bg-memorialDark-accent text-white dark:text-memorialDark-bg hover:shadow-memorial-lg'
+                                    : 'hover:border-memorial-accent dark:hover:border-memorialDark-accent border border-transparent'
                                     }`}
                             >
                                 <div className="flex flex-col items-center text-center gap-3">
                                     <div
                                         className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${action.primary
                                             ? 'bg-white/20'
-                                            : 'bg-memorial-gold/10 dark:bg-memorialDark-gold/10'
+                                            : 'bg-memorial-accent/10 dark:bg-memorialDark-accent/10'
                                             }`}
                                     >
                                         <Icon
                                             size={24}
                                             className={
                                                 action.primary
-                                                    ? 'text-white'
-                                                    : 'text-memorial-gold dark:text-memorialDark-gold'
+                                                    ? 'text-white dark:text-memorialDark-bg'
+                                                    : 'text-memorial-accent dark:text-memorialDark-accent'
                                             }
                                         />
                                     </div>
@@ -134,7 +134,7 @@ export default function QuickActions() {
                                     <div>
                                         <h3
                                             className={`text-lg font-serif mb-1 ${action.primary
-                                                ? 'text-white'
+                                                ? 'text-white dark:text-memorialDark-bg'
                                                 : 'text-memorial-text dark:text-memorialDark-text'
                                                 }`}
                                         >
@@ -142,7 +142,7 @@ export default function QuickActions() {
                                         </h3>
                                         <p
                                             className={`text-sm ${action.primary
-                                                ? 'text-white/80'
+                                                ? 'text-white/80 dark:text-memorialDark-bg/80'
                                                 : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                                                 }`}
                                         >

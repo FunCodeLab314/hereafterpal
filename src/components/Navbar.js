@@ -102,7 +102,7 @@ export function Navbar() {
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2" onClick={closeMenu}>
-              <MessageSquareHeart size={28} className="text-memorial-gold dark:text-memorialDark-gold" />
+              <MessageSquareHeart size={28} className="text-memorial-accent dark:text-memorialDark-accent" />
               <span className="font-serif font-semibold text-xl text-memorial-text dark:text-memorialDark-text">
                 Hereafter, Pal
               </span>
@@ -115,7 +115,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`text-sm font-medium transition-colors duration-200 ${isActive(link.href)
-                    ? 'text-memorial-gold dark:text-memorialDark-gold'
+                    ? 'text-memorial-accent dark:text-memorialDark-accent'
                     : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
                     }`}
                 >
@@ -135,7 +135,7 @@ export function Navbar() {
                         key={link.href}
                         href={link.href}
                         className={`text-sm font-medium transition-colors duration-200 ${isActive(link.href)
-                          ? 'text-memorial-gold dark:text-memorialDark-gold'
+                          ? 'text-memorial-accent dark:text-memorialDark-accent'
                           : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
                           }`}
                       >
@@ -152,7 +152,7 @@ export function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="text-sm font-medium bg-memorial-gold dark:bg-memorialDark-gold text-white px-4 py-2 rounded-memorial hover:opacity-90 transition-opacity duration-200"
+                    className="text-sm font-medium bg-memorial-accent dark:bg-memorialDark-accent text-white dark:text-memorialDark-bg px-4 py-2 rounded-memorial hover:opacity-90 transition-opacity duration-200"
                   >
                     Log In
                   </Link>
@@ -190,7 +190,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={`block px-4 py-3 rounded-memorial text-base font-medium ${isActive(link.href)
-                      ? 'bg-memorial-gold/10 text-memorial-gold dark:text-memorialDark-gold'
+                      ? 'bg-memorial-accent/10 text-memorial-accent dark:text-memorialDark-accent'
                       : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
                       }`}
                     onClick={closeMenu}
@@ -207,7 +207,7 @@ export function Navbar() {
                           key={link.href}
                           href={link.href}
                           className={`block px-4 py-3 rounded-memorial text-base font-medium ${isActive(link.href)
-                            ? 'bg-memorial-gold/10 text-memorial-gold dark:text-memorialDark-gold'
+                            ? 'bg-memorial-accent/10 text-memorial-accent dark:text-memorialDark-accent'
                             : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
                             }`}
                           onClick={closeMenu}
@@ -225,7 +225,7 @@ export function Navbar() {
                   ) : (
                     <Link
                       href="/login"
-                      className="block text-center px-4 py-3 rounded-memorial text-base font-medium bg-memorial-gold dark:bg-memorialDark-gold text-white"
+                      className="block text-center px-4 py-3 rounded-memorial text-base font-medium bg-memorial-accent dark:bg-memorialDark-accent text-white dark:text-memorialDark-bg"
                       onClick={closeMenu}
                     >
                       Log In
@@ -274,11 +274,11 @@ export function Navbar() {
                   key={item.href}
                   onClick={navigateToCreateMemorial}
                   className={`flex flex-col items-center justify-center gap-0.5 ${active
-                    ? 'text-memorial-gold dark:text-memorialDark-gold'
+                    ? 'text-memorial-accent dark:text-memorialDark-accent'
                     : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                     }`}
                 >
-                  <div className={`p-1.5 rounded-full ${active ? '' : 'bg-memorial-gold dark:bg-memorialDark-gold'}`}>
+                  <div className={`p-1.5 rounded-full ${active ? '' : 'bg-memorial-accent dark:bg-memorialDark-accent'}`}>
                     <Icon size={20} className={active ? '' : 'text-white'} />
                   </div>
                   <span className="text-[10px]">{item.label}</span>
@@ -291,7 +291,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={`flex flex-col items-center justify-center gap-0.5 ${active
-                  ? 'text-memorial-gold dark:text-memorialDark-gold'
+                  ? 'text-memorial-accent dark:text-memorialDark-accent'
                   : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                   }`}
               >

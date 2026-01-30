@@ -17,75 +17,75 @@ module.exports = {
         poppins: ['var(--font-poppins)', 'sans-serif'],
       },
       colors: {
-        // ===== LIGHT MODE =====
+        // ===== LIGHT MODE (White, Black, Gray Palette) =====
         memorial: {
-          // Background Tones (Whites to Light Grays)
-          bg: '#FFFFFF',              // Base white
+          // Background Tones (Whites)
+          bg: '#FFFFFF',              // Pure white
           surface: '#FAFAFA',         // Soft off-white
           surfaceAlt: '#F5F5F5',      // Light gray surface
 
-          // Borders & Dividers
+          // Borders & Dividers (Grays)
           borderLight: '#E5E5E5',     // Very light border
           border: '#D4D4D4',          // Light gray border
           divider: '#A3A3A3',         // Medium gray divider
 
-          // Text Hierarchy
-          textTertiary: '#737373',    // Light text / captions
-          textSecondary: '#525252',   // Secondary text
-          textMuted: '#404040',       // Muted text
-          text: '#262626',            // Primary text
+          // Text Hierarchy (Black to Gray)
+          textTertiary: '#737373',    // Light gray text / captions
+          textSecondary: '#525252',   // Medium gray text
+          textMuted: '#404040',       // Dark gray text
+          text: '#262626',            // Near black text
           textDark: '#171717',        // Dark text / emphasis
-          textBlack: '#0A0A0A',       // Near black
+          textBlack: '#000000',       // Pure black
 
-          // Accent
-          gold: '#C9A961',            // Muted gold accent
-          goldLight: '#D4B87A',       // Lighter gold for hover
-          goldDark: '#B89951',        // Darker gold for active
+          // Accent (Gray-based)
+          accent: '#404040',          // Dark gray accent
+          accentLight: '#525252',     // Medium gray for hover
+          accentDark: '#262626',      // Near black for active
         },
 
-        // ===== DARK MODE =====
+        // ===== DARK MODE (Inverted - Black, White, Gray Palette) =====
         memorialDark: {
-          // Background Tones (Darkest to Medium)
-          bg: '#0A0F1C',              // Deep navy
-          surface: '#141B2D',         // Dark navy surface
-          surfaceAlt: '#1F2937',      // Medium dark surface
+          // Background Tones (Blacks)
+          bg: '#0A0A0A',              // Near black
+          surface: '#171717',         // Dark surface
+          surfaceAlt: '#262626',      // Medium dark surface
 
-          // Borders & Dividers
-          border: '#2D3748',          // Dark border
-          divider: '#4B5563',         // Medium divider
+          // Borders & Dividers (Dark Grays)
+          border: '#404040',          // Dark border
+          divider: '#525252',         // Medium divider
 
-          // Text Hierarchy
-          textTertiary: '#9CA3AF',    // Muted light
-          textSecondary: '#D1D5DB',   // Secondary light
-          text: '#F5F5F5',            // Primary light text
+          // Text Hierarchy (White to Gray)
+          textTertiary: '#A3A3A3',    // Medium gray
+          textSecondary: '#D4D4D4',   // Light gray
+          text: '#F5F5F5',            // Off-white text
           textBright: '#FFFFFF',      // Pure white
 
-          // Accent
-          gold: '#D4AF76',            // Soft amber accent
-          goldLight: '#E0C090',       // Lighter amber for hover
-          goldDark: '#C99F66',        // Darker amber for active
+          // Accent (Light Gray-based)
+          accent: '#D4D4D4',          // Light gray accent
+          accentLight: '#E5E5E5',     // Lighter for hover
+          accentDark: '#A3A3A3',      // Medium gray for active
         },
 
-        // Legacy colors (keeping for backward compatibility)
+        // Legacy colors (updated for consistency)
         light: {
-          background: '#FBFBFB',
-          surface: '#FFFFFF',
-          textPrimary: '#262626',
-          textSecondary: '#575757',
-          primaryButton: '#444444',
+          background: '#FFFFFF',
+          surface: '#FAFAFA',
+          textPrimary: '#000000',
+          textSecondary: '#525252',
+          primaryButton: '#262626',
           buttonText: '#FFFFFF',
-          accent: '#b45309',
-          border: '#EBEBEB',
+          accent: '#404040',
+          border: '#E5E5E5',
         },
         dark: {
-          background: '#0f172a',
-          surface: '#1e293b',
-          textPrimary: '#f1f5f9',
-          textSecondary: '#94a3b8',
-          primaryButton: '#e2e8f0',
-          buttonText: '#1e293b',
-          accent: '#f59e0b',
-          border: '#334155',
+          background: '#0A0A0A',
+          surface: '#171717',
+          textPrimary: '#FFFFFF',
+          textSecondary: '#A3A3A3',
+          primaryButton: '#F5F5F5',
+          buttonText: '#171717',
+          accent: '#D4D4D4',
+          border: '#404040',
         },
       },
       spacing: {
@@ -141,9 +141,9 @@ module.exports = {
         'memorial-md': '0 4px 12px rgba(0, 0, 0, 0.07)',
         'memorial-lg': '0 4px 16px rgba(0, 0, 0, 0.08)',
         'memorial-xl': '0 8px 24px rgba(0, 0, 0, 0.10)',
-        // Gold glow for accents
-        'gold-glow': '0 0 16px rgba(201, 169, 97, 0.3)',
-        'gold-glow-lg': '0 0 24px rgba(201, 169, 97, 0.4)',
+        // Neutral glow for accents
+        'accent-glow': '0 0 16px rgba(64, 64, 64, 0.3)',
+        'accent-glow-lg': '0 0 24px rgba(64, 64, 64, 0.4)',
       },
       transitionDuration: {
         '150': '150ms',   // Quick interactions

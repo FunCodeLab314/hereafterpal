@@ -84,7 +84,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                 <div className="space-y-4 md:space-y-6">
                     {isLoading ? (
                         <div className="text-center py-8">
-                            <div className="inline-block w-8 h-8 border-4 border-memorial-gold/30 border-t-memorial-gold dark:border-memorialDark-gold/30 dark:border-t-memorialDark-gold rounded-full animate-spin" />
+                            <div className="inline-block w-8 h-8 border-4 border-memorial-accent/30 border-t-memorial-accent dark:border-memorialDark-accent/30 dark:border-t-memorialDark-accent rounded-full animate-spin" />
                             <p className="mt-4 text-memorial-textSecondary dark:text-memorialDark-textSecondary">
                                 Loading messages...
                             </p>
@@ -103,8 +103,8 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                     {/* Author Info */}
                                     <div className="flex items-start gap-3">
                                         {/* Avatar with Role Initial */}
-                                        <div className="w-10 h-10 rounded-full bg-memorial-gold/20 dark:bg-memorialDark-gold/20 flex items-center justify-center flex-shrink-0">
-                                            <span className="text-memorial-gold dark:text-memorialDark-gold font-semibold text-sm">
+                                        <div className="w-10 h-10 rounded-full bg-memorial-accent/20 dark:bg-memorialDark-accent/20 flex items-center justify-center flex-shrink-0">
+                                            <span className="text-memorial-accent dark:text-memorialDark-accent font-semibold text-sm">
                                                 {getRoleInitial(msg.role)}
                                             </span>
                                         </div>
@@ -116,7 +116,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                                         {msg.author_name}
                                                     </h4>
                                                     {msg.role && (
-                                                        <span className="text-xs px-2 py-0.5 rounded-full bg-memorial-gold/10 dark:bg-memorialDark-gold/10 text-memorial-gold dark:text-memorialDark-gold">
+                                                        <span className="text-xs px-2 py-0.5 rounded-full bg-memorial-accent/10 dark:bg-memorialDark-accent/10 text-memorial-accent dark:text-memorialDark-accent">
                                                             {msg.role}
                                                         </span>
                                                     )}
@@ -144,7 +144,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                 <div className="flex justify-center pt-2">
                                     <button
                                         onClick={() => setIsExpanded(!isExpanded)}
-                                        className="inline-flex items-center justify-center px-6 py-2 border border-memorial-gold dark:border-memorialDark-gold text-memorial-gold dark:text-memorialDark-gold rounded-full hover:bg-memorial-gold hover:text-white dark:hover:bg-memorialDark-gold dark:hover:text-black transition-all duration-300 text-sm font-medium"
+                                        className="inline-flex items-center justify-center px-6 py-2 border border-memorial-accent dark:border-memorialDark-accent text-memorial-accent dark:text-memorialDark-accent rounded-full hover:bg-memorial-accent hover:text-white dark:hover:bg-memorialDark-accent dark:hover:text-black transition-all duration-300 text-sm font-medium"
                                     >
                                         {isExpanded ? 'View Less' : `View All (${messages.length})`}
                                     </button>
@@ -169,7 +169,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                 onClick={() => setIsOpen(!isOpen)}
                 className={`fixed bottom-20 md:bottom-8 right-4 md:right-8 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-colors duration-200 ${isOpen
                     ? 'bg-memorial-text dark:bg-memorialDark-text'
-                    : 'bg-memorial-gold dark:bg-memorialDark-gold'
+                    : 'bg-memorial-accent dark:bg-memorialDark-accent'
                     }`}
                 aria-label={isOpen ? 'Close guestbook form' : 'Open guestbook form'}
             >
@@ -222,7 +222,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                             <div className="memorial-card p-4 md:p-6 shadow-2xl">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-lg md:text-xl font-serif text-memorial-text dark:text-memorialDark-text flex items-center gap-2">
-                                        <Heart size={20} className="text-memorial-gold dark:text-memorialDark-gold" />
+                                        <Heart size={20} className="text-memorial-accent dark:text-memorialDark-accent" />
                                         Share a Memory
                                     </h3>
                                     <button
@@ -249,7 +249,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className="w-full px-4 py-3 rounded-memorial bg-memorial-bg dark:bg-memorialDark-bg border border-memorial-divider dark:border-memorialDark-divider text-memorial-text dark:text-memorialDark-text focus:border-memorial-gold dark:focus:border-memorialDark-gold transition-colors duration-200 text-sm"
+                                            className="w-full px-4 py-3 rounded-memorial bg-memorial-bg dark:bg-memorialDark-bg border border-memorial-divider dark:border-memorialDark-divider text-memorial-text dark:text-memorialDark-text focus:border-memorial-accent dark:focus:border-memorialDark-accent transition-colors duration-200 text-sm"
                                             placeholder="Enter your name"
                                         />
                                     </div>
@@ -268,7 +268,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                             name="role"
                                             value={formData.role}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 rounded-memorial bg-memorial-bg dark:bg-memorialDark-bg border border-memorial-divider dark:border-memorialDark-divider text-memorial-text dark:text-memorialDark-text focus:border-memorial-gold dark:focus:border-memorialDark-gold transition-colors duration-200 text-sm"
+                                            className="w-full px-4 py-3 rounded-memorial bg-memorial-bg dark:bg-memorialDark-bg border border-memorial-divider dark:border-memorialDark-divider text-memorial-text dark:text-memorialDark-text focus:border-memorial-accent dark:focus:border-memorialDark-accent transition-colors duration-200 text-sm"
                                         >
                                             {ROLES.map((role) => (
                                                 <option
@@ -302,7 +302,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                             onChange={handleChange}
                                             required
                                             rows="3"
-                                            className="w-full px-4 py-3 rounded-memorial bg-memorial-bg dark:bg-memorialDark-bg border border-memorial-divider dark:border-memorialDark-divider text-memorial-text dark:text-memorialDark-text focus:border-memorial-gold dark:focus:border-memorialDark-gold transition-colors duration-200 resize-none text-sm"
+                                            className="w-full px-4 py-3 rounded-memorial bg-memorial-bg dark:bg-memorialDark-bg border border-memorial-divider dark:border-memorialDark-divider text-memorial-text dark:text-memorialDark-text focus:border-memorial-accent dark:focus:border-memorialDark-accent transition-colors duration-200 resize-none text-sm"
                                             placeholder="Share a memory or message..."
                                         />
                                     </div>
@@ -311,7 +311,7 @@ export default function Guestbook({ messages, onSubmit, isLoading }) {
                                     <button
                                         type="submit"
                                         disabled={isSubmitting || !formData.name.trim() || !formData.message.trim()}
-                                        className="w-full px-6 py-3 bg-memorial-gold dark:bg-memorialDark-gold text-white rounded-memorial hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 font-medium text-sm"
+                                        className="w-full px-6 py-3 bg-memorial-accent dark:bg-memorialDark-accent text-white dark:text-memorialDark-bg rounded-memorial hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 font-medium text-sm"
                                     >
                                         {isSubmitting ? (
                                             <>

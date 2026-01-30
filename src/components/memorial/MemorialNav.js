@@ -71,8 +71,8 @@ export default function MemorialNav({ memorialId, activeSection = 'home' }) {
             {/* Desktop/Tablet Navigation - Top Horizontal */}
             <nav
                 className={`hidden md:block fixed top-0 left-0 right-0 z-40 transition-all duration-300 no-print ${isScrolled
-                        ? 'bg-memorial-surface/95 dark:bg-memorialDark-surface/95 backdrop-blur-md shadow-memorial'
-                        : 'bg-transparent'
+                    ? 'bg-memorial-surface/95 dark:bg-memorialDark-surface/95 backdrop-blur-md shadow-memorial'
+                    : 'bg-transparent'
                     }`}
             >
                 <div className="max-w-7xl mx-auto px-6 py-4">
@@ -87,8 +87,8 @@ export default function MemorialNav({ memorialId, activeSection = 'home' }) {
                                     href={item.href}
                                     onClick={(e) => handleNavClick(e, item.href)}
                                     className={`flex items-center gap-2 px-4 py-2 rounded-memorial transition-all duration-200 ${isActive
-                                            ? 'text-memorial-gold dark:text-memorialDark-gold font-medium'
-                                            : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
+                                        ? 'text-memorial-accent dark:text-memorialDark-accent font-medium'
+                                        : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary hover:text-memorial-text dark:hover:text-memorialDark-text'
                                         }`}
                                     aria-current={isActive ? 'page' : undefined}
                                 >
@@ -114,8 +114,8 @@ export default function MemorialNav({ memorialId, activeSection = 'home' }) {
                                 href={item.href}
                                 onClick={(e) => handleNavClick(e, item.href)}
                                 className={`flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-memorial min-h-touch transition-colors duration-200 ${isActive
-                                        ? 'text-memorial-gold dark:text-memorialDark-gold'
-                                        : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
+                                    ? 'text-memorial-accent dark:text-memorialDark-accent'
+                                    : 'text-memorial-textSecondary dark:text-memorialDark-textSecondary'
                                     }`}
                                 aria-current={isActive ? 'page' : undefined}
                             >
@@ -167,7 +167,7 @@ export default function MemorialNav({ memorialId, activeSection = 'home' }) {
                     onClick={(e) => handleNavClick(e, item.href)}
                     className={`flex items-center gap-4 w-full px-6 py-4 rounded-memorial min-h-touch text-lg transition-colors duration-200 ${
                       isActive
-                        ? 'bg-memorial-gold/10 dark:bg-memorialDark-gold/10 text-memorial-gold dark:text-memorialDark-gold font-medium'
+                        ? 'bg-memorial-accent/10 dark:bg-memorialDark-accent/10 text-memorial-accent dark:text-memorialDark-accent font-medium'
                         : 'text-memorial-text dark:text-memorialDark-text hover:bg-memorial-bg dark:hover:bg-memorialDark-bg'
                     }`}
                   >

@@ -46,17 +46,17 @@ export default function Timeline({ milestones }) {
                             {/* Date Section */}
                             <div className="flex items-center gap-3 mb-3 md:mb-0 md:w-32 md:flex-shrink-0 md:text-right md:pt-1">
                                 {/* Timeline Dot (Desktop only) */}
-                                <div className="hidden md:block absolute left-6 w-4 h-4 rounded-full bg-memorial-gold dark:bg-memorialDark-gold border-4 border-memorial-surface dark:border-memorialDark-surface" />
+                                <div className="hidden md:block absolute left-6 w-4 h-4 rounded-full bg-memorial-accent dark:bg-memorialDark-accent border-4 border-memorial-surface dark:border-memorialDark-surface" />
 
                                 {/* Calendar Icon (Mobile only) */}
-                                <div className="md:hidden w-8 h-8 rounded-full bg-memorial-gold/10 dark:bg-memorialDark-gold/10 flex items-center justify-center flex-shrink-0">
-                                    <Calendar size={16} className="text-memorial-gold dark:text-memorialDark-gold" />
+                                <div className="md:hidden w-8 h-8 rounded-full bg-memorial-accent/10 dark:bg-memorialDark-accent/10 flex items-center justify-center flex-shrink-0">
+                                    <Calendar size={16} className="text-memorial-accent dark:text-memorialDark-accent" />
                                 </div>
 
                                 {/* Date Text */}
                                 <time
                                     dateTime={milestone.date}
-                                    className="text-sm md:text-base font-medium text-memorial-gold dark:text-memorialDark-gold"
+                                    className="text-sm md:text-base font-medium text-memorial-accent dark:text-memorialDark-accent"
                                 >
                                     {getYear(milestone.date)}
                                 </time>

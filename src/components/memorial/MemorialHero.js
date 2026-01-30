@@ -143,8 +143,8 @@ export default function MemorialHero({ memorial }) {
                                 <button
                                     onClick={togglePlayback}
                                     className={`flex items-center gap-3 px-6 py-3 rounded-full transition-all duration-200 ${isPlaying
-                                            ? 'bg-white/20 backdrop-blur-md border border-white/30'
-                                            : 'bg-memorial-gold/90 dark:bg-memorialDark-gold/90 hover:bg-memorial-gold dark:hover:bg-memorialDark-gold'
+                                        ? 'bg-white/20 backdrop-blur-md border border-white/30'
+                                        : 'bg-memorial-accent/90 dark:bg-memorialDark-accent/90 hover:bg-memorial-accent dark:hover:bg-memorialDark-accent'
                                         }`}
                                 >
                                     {isPlaying ? (

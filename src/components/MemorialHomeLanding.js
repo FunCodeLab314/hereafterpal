@@ -26,7 +26,7 @@ export default function MemorialHomeLanding() {
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-memorial-text dark:text-memorialDark-text mb-6 md:mb-8 leading-tight">
                         Celebrate Life.
                         <br />
-                        <span className="text-memorial-gold dark:text-memorialDark-gold">
+                        <span className="text-memorial-accent dark:text-memorialDark-accent">
                             Honor Memory.
                         </span>
                     </h1>
@@ -50,14 +50,14 @@ export default function MemorialHomeLanding() {
                     >
                         <button
                             onClick={navigateToCreateMemorial}
-                            className="px-8 py-4 bg-memorial-gold dark:bg-memorialDark-gold text-white rounded-memorial hover:opacity-90 transition-all duration-300 font-medium text-lg min-h-touch min-w-[200px] flex items-center justify-center shadow-memorial hover:shadow-memorial-lg active:scale-98"
+                            className="px-8 py-4 bg-memorial-accent dark:bg-memorialDark-accent text-white dark:text-memorialDark-bg rounded-memorial hover:opacity-90 transition-all duration-300 font-medium text-lg min-h-touch min-w-[200px] flex items-center justify-center shadow-memorial hover:shadow-memorial-lg active:scale-98"
                         >
                             Create a Memorial
                         </button>
 
                         <a
                             href="#explore"
-                            className="px-8 py-4 bg-transparent border-2 border-memorial-gold dark:border-memorialDark-gold text-memorial-gold dark:text-memorialDark-gold rounded-memorial hover:bg-memorial-gold/10 dark:hover:bg-memorialDark-gold/10 transition-all duration-300 font-medium text-lg min-h-touch min-w-[200px] flex items-center justify-center"
+                            className="px-8 py-4 bg-transparent border-2 border-memorial-accent dark:border-memorialDark-accent text-memorial-accent dark:text-memorialDark-accent rounded-memorial hover:bg-memorial-accent/10 dark:hover:bg-memorialDark-accent/10 transition-all duration-300 font-medium text-lg min-h-touch min-w-[200px] flex items-center justify-center"
                         >
                             Explore Memorials
                         </a>
@@ -76,9 +76,9 @@ export default function MemorialHomeLanding() {
                         <motion.div
                             animate={{ y: [0, 8, 0] }}
                             transition={{ duration: 1.5, repeat: Infinity }}
-                            className="w-6 h-10 border-2 border-memorial-gold dark:border-memorialDark-gold rounded-full p-1"
+                            className="w-6 h-10 border-2 border-memorial-accent dark:border-memorialDark-accent rounded-full p-1"
                         >
-                            <div className="w-1 h-2 bg-memorial-gold dark:bg-memorialDark-gold rounded-full mx-auto" />
+                            <div className="w-1 h-2 bg-memorial-accent dark:bg-memorialDark-accent rounded-full mx-auto" />
                         </motion.div>
                     </div>
                 </motion.div>
